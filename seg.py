@@ -71,20 +71,19 @@ while True:
         masks = r.masks  # Masks object for segment masks outputs
         probs = r.probs  # Class probabilities for classification outputs
 
-    print(boxes)
-    # masks = masks.data.cpu()
-    # for seg, box in zip(masks.data.cpu().numpy(), boxes):
+    if masks is not None:
+        masks = masks.data.cpu()
+        for seg, box in zip(masks.data.cpu().numpy(), boxes):
 
-    #     seg = cv2.resize(seg, (w, h))
-    #     img = overlay(img, seg, colors[int(box.cls)], 0.2)
-
-        
-    #     xmin = int(box.data[0][0])
-    #     ymin = int(box.data[0][1])
-    #     xmax = int(box.data[0][2])
-    #     ymax = int(box.data[0][3])
-        
-    #     plot_one_box([xmin, ymin, xmax, ymax], img, colors[int(box.cls)], f'{class_names[int(box.cls)]} {float(box.conf):.3}')
+            seg = cv2.resize(seg, (w, h))
+            img = overlay(img, seg, colors[int(box.cls)], 0.4)
+            
+            xmin = int(box.data[0][0])
+            ymin = int(box.data[0][1])
+            xmax = int(box.data[0][2])
+            ymax = int(box.data[0][3])
+            
+            plot_one_box([xmin, ymin, xmax, ymax], img, colors[int(box.cls)], f'{class_names[int(box.cls)]} {float(box.conf):.3}')
 
     cv2.imshow('img', img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
