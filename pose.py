@@ -43,18 +43,28 @@ def plot_skeleton_kpts(im, kpts, radius=5, shape=(640, 640), confi=0.5, line_thi
 
 
 model = YOLO('yolov8n-pose.pt')
-
-img = cv2.imread('ptest.jpg')
+cap = cv2.VideoCapture(2)
 poses = None
-results = model.predict(img)
-for result in results:
-    # print(result.keypoints)
-    poses = result.keypoints
 
-if poses is not None:
-    for pose in poses:
-        plot_skeleton_kpts(img, pose, radius=25, line_thick=5, confi=0.5)
+while True:
+    success, img = cap.read()
+    if not success:
+        print('[INFO] Failed to Read...')
+        break
 
-img = cv2.resize(img, (1080, 720))
-cv2.imshow('img', img)
-cv2.waitKey(0)
+    results = model.predict(img)
+    for result in results:
+        # print(result.keypoints)
+        poses = result.keypoints
+
+    if poses is not None:
+        for pose in poses:
+            plot_skeleton_kpts(img, pose, radius=5, line_thick=2, confi=0.5)
+
+    # img = cv2.resize(img, (1080, 720))
+    cv2.imshow('img', img)
+    if cv2.waitKey(1) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
