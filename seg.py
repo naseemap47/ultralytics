@@ -51,12 +51,12 @@ def plot_one_box(x, img, color=None, label=None, line_thickness=3):
 
 
 # Load a model
-model = YOLO("best.pt")
+model = YOLO("yolov8n-seg.pt")
 class_names = model.names
 print('Class Names: ', class_names)
 colors = [[random.randint(0, 255) for _ in range(3)] for _ in class_names]
 # cap = cv2.VideoCapture('test.mp4')
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
 
 while True:
     success, img = cap.read()
