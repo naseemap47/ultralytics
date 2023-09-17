@@ -43,7 +43,6 @@ def plot_skeleton_kpts(im, kpts, radius=5, shape=(640, 640), confi=0.5, line_thi
 
 model = YOLO('yolov8n-pose.pt')
 cap = cv2.VideoCapture(0)
-poses = None
 
 while True:
     success, img = cap.read()
@@ -55,8 +54,6 @@ while True:
     for result in results:
         # print(result.keypoints)
         poses = result.keypoints.data
-
-    if poses is not None:
         for pose in poses:
             plot_skeleton_kpts(img, pose, radius=5, line_thick=2, confi=0.5)
 
